@@ -1,3 +1,38 @@
+<div class="tool-panel guide-panel">
+  <div class="section-heading">
+    <h2>怎么选参数</h2>
+  </div>
+  <div class="guide-grid">
+    <div>
+      <strong>声音原点</strong>
+      <p>把你想作为时间基准的声源填在这里，距离为它到采集点的直线距离。</p>
+    </div>
+    <div>
+      <strong>声源距离</strong>
+      <p>每个声源只需要填到同一个采集点的距离。工具自动找最晚到达点。</p>
+    </div>
+    <div>
+      <strong>结果延迟</strong>
+      <p>把每行“延迟 (ms)”设置到对应声源，使所有声音同时到达采集点。</p>
+    </div>
+    <div>
+      <strong>额外整体延迟</strong>
+      <p>需要给系统保留余量时再加。它会整体增加延迟，不改变相对同步。</p>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel preset-panel">
+  <div class="section-heading">
+    <h2>场景预设</h2>
+  </div>
+  <div class="preset-row" aria-label="多点声源延时预设">
+    <button type="button" data-multi-delay-preset="near-far">近远两点</button>
+    <button type="button" data-multi-delay-preset="small-room">小房间</button>
+    <button type="button" data-multi-delay-preset="with-headroom">带 1ms 余量</button>
+  </div>
+</div>
+
 <div class="split-fields three">
   <div class="tool-panel compact-panel">
     <label class="field-label" for="sound-speed-input">声速 (m/s)</label>
@@ -79,6 +114,34 @@
 <div class="status-line" data-status data-state="ok">
   <span aria-hidden="true">●</span>
   <span>等待处理</span>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>结果抄写表</h2>
+  </div>
+  <div class="result-grid">
+    <div class="result-row">
+      <span>对齐基准</span>
+      <strong data-multi-delay-result="anchor">-</strong>
+      <em>自然最晚到达的点</em>
+    </div>
+    <div class="result-row">
+      <span>目标到达时间</span>
+      <strong data-multi-delay-result="target">-</strong>
+      <em>所有声源最终对齐到这里</em>
+    </div>
+    <div class="result-row">
+      <span>原点推荐延迟</span>
+      <strong data-multi-delay-result="origin-delay">-</strong>
+      <em>设置到声音原点</em>
+    </div>
+    <div class="result-row">
+      <span>声速</span>
+      <strong data-multi-delay-result="sound-speed">-</strong>
+      <em>距离换算所用声速</em>
+    </div>
+  </div>
 </div>
 
 <div class="tool-panel">

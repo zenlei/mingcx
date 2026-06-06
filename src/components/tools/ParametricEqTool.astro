@@ -1,3 +1,38 @@
+<div class="tool-panel guide-panel">
+  <div class="section-heading">
+    <h2>怎么选参数</h2>
+  </div>
+  <div class="guide-grid">
+    <div>
+      <strong>中心频点</strong>
+      <p>填你想处理的频率。找共振点时先扫频，再微调中心频点。</p>
+    </div>
+    <div>
+      <strong>Q</strong>
+      <p>Q 越大，影响范围越窄；Q 越小，影响范围越宽。常用起点 0.7 到 4。</p>
+    </div>
+    <div>
+      <strong>左右频点</strong>
+      <p>也可以直接填左右边界，工具会反算中心频点和 Q。</p>
+    </div>
+    <div>
+      <strong>增益</strong>
+      <p>正值提升，负值衰减。调音时小步修改，优先用窄带削峰。</p>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel preset-panel">
+  <div class="section-heading">
+    <h2>场景预设</h2>
+  </div>
+  <div class="preset-row" aria-label="EQ 参数预设">
+    <button type="button" data-eq-preset="broad">宽带修正</button>
+    <button type="button" data-eq-preset="notch">窄带削峰</button>
+    <button type="button" data-eq-preset="vocal">人声存在感</button>
+  </div>
+</div>
+
 <div class="split-fields three">
   <div class="tool-panel compact-panel">
     <label class="field-label" for="eq-center-input">中心频点 (Hz)</label>
@@ -30,6 +65,34 @@
 <div class="status-line" data-status data-state="ok">
   <span aria-hidden="true">●</span>
   <span>等待处理</span>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>结果抄写表</h2>
+  </div>
+  <div class="result-grid">
+    <div class="result-row">
+      <span>Center</span>
+      <strong data-eq-result="center">-</strong>
+      <em>中心频点</em>
+    </div>
+    <div class="result-row">
+      <span>Q</span>
+      <strong data-eq-result="q">-</strong>
+      <em>滤波器带宽参数</em>
+    </div>
+    <div class="result-row">
+      <span>Bandwidth</span>
+      <strong data-eq-result="bandwidth">-</strong>
+      <em>左右频点差值</em>
+    </div>
+    <div class="result-row">
+      <span>Octaves</span>
+      <strong data-eq-result="octaves">-</strong>
+      <em>带宽对应倍频程</em>
+    </div>
+  </div>
 </div>
 
 <div class="tool-panel">

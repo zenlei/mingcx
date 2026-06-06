@@ -3,6 +3,7 @@ export type ToolId =
   | "base64"
   | "timestamp"
   | "sigmastudio-delay"
+  | "sigmastudio-limiter"
   | "multi-source-delay"
   | "parametric-eq";
 
@@ -47,6 +48,14 @@ export const tools: ToolMeta[] = [
     category: "音频",
     tags: ["SigmaStudio", "Delay", "Samples", "DSP"],
     path: "/tools/sigmastudio-delay",
+  },
+  {
+    id: "sigmastudio-limiter",
+    title: "SigmaStudio Limiter",
+    description: "Limiter 阈值、RMS、Decay 与 DSP 参数换算。",
+    category: "音频",
+    tags: ["SigmaStudio", "Limiter", "Dynamics", "DSP"],
+    path: "/tools/sigmastudio-limiter",
   },
   {
     id: "multi-source-delay",

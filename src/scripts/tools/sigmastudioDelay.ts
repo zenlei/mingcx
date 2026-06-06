@@ -31,6 +31,12 @@ let lastSource: DelaySource = "ms";
 let isSyncing = false;
 let historyTimer: number | undefined;
 
+const presets: Record<string, { source: DelaySource; value: string; unit?: DistanceUnit }> = {
+  "one-ms": { source: "ms", value: "1" },
+  "one-meter": { source: "distance", value: "1", unit: "m" },
+  "one-sample": { source: "samples", value: "1" },
+};
+
 sampleRateInput.addEventListener("input", () => updateFromLastSource());
 soundSpeedInput.addEventListener("input", () => updateFromLastSource());
 temperatureModeInput.addEventListener("change", () => {
@@ -60,6 +66,31 @@ distanceInput.addEventListener("input", () => {
 distanceUnit.addEventListener("change", () => {
   lastSource = "distance";
   updateFromLastSource();
+});
+
+document.querySelectorAll<HTMLButtonElement>("[data-delay-preset]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const preset = presets[button.dataset.delayPreset ?? ""];
+
+    if (!preset) {
+      return;
+    }
+
+    lastSource = preset.source;
+
+    if (preset.source === "ms") {
+      delayMsInput.value = preset.value;
+    }
+    if (preset.source === "samples") {
+      samplesInput.value = preset.value;
+    }
+    if (preset.source === "distance") {
+      distanceInput.value = preset.value;
+      distanceUnit.value = preset.unit ?? "m";
+    }
+
+    updateFromLastSource();
+  });
 });
 
 history.render();
@@ -243,6 +274,23 @@ function renderResult(result: ReturnType<typeof calculateFromSamples>) {
     `Sound speed: ${formatNumber(result.soundSpeed, 4)} m/s`,
     `Sound speed mode: ${temperatureModeInput.checked ? "temperature" : "fixed"}`,
   ].join("\n");
+
+  renderResultGrid(result);
+}
+
+function renderResultGrid(result: ReturnType<typeof calculateFromSamples>) {
+  setResultValue("cur-samples", `${result.curSamples} samples`);
+  setResultValue("actual-delay", `${formatNumber(result.curDelayMs, 6)} ms`);
+  setResultValue("distance", `${formatNumber(result.meters, 6)} m`);
+  setResultValue("one-sample", `${formatNumber(1000 / result.sampleRate, 8)} ms`);
+}
+
+function setResultValue(key: string, value: string) {
+  const target = document.querySelector<HTMLElement>(`[data-delay-result="${key}"]`);
+
+  if (target) {
+    target.textContent = value;
+  }
 }
 
 function syncSoundSpeedMode() {
@@ -293,6 +341,9 @@ function scheduleHistorySave(mode: string, inputValue: string) {
 
 function fail(message: string) {
   window.clearTimeout(historyTimer);
+  document.querySelectorAll<HTMLElement>("[data-delay-result]").forEach((element) => {
+    element.textContent = "-";
+  });
   output.value = "";
   setStatus(message, true);
 }

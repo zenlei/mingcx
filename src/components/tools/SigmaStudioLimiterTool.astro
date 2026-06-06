@@ -1,0 +1,123 @@
+<div class="tool-panel notice-panel">
+  <strong>SigmaStudio 4.7 引脚标注提醒 / Pin Label Notice</strong>
+  <p>
+    中文：从 SigmaStudio 4.7 开始，Pin 2 标为 “Limter ratio”，但实际是 limiter active flag；Pin 3 标为
+    Limiter Active Flag，但实际是 limiter ratio。
+  </p>
+  <p>
+    English: As of SigmaStudio 4.7, Pin 2 is labeled “Limter ratio” but is actually the limiter active flag, while Pin 3 is
+    labeled Limiter Active Flag but is actually the limiter ratio.
+  </p>
+</div>
+
+<div class="tool-panel guide-panel">
+  <div class="section-heading">
+    <h2>怎么选参数</h2>
+  </div>
+  <div class="guide-grid">
+    <div>
+      <strong>1. Threshold</strong>
+      <p>设成你希望开始限制的 RMS 电平。音频系统常从 -6 dB 到 0 dB 试起。</p>
+    </div>
+    <div>
+      <strong>2. 输入 RMS 估算</strong>
+      <p>填当前信号的估算 RMS。它只用于估算 Limiter Ratio / Gain，方便你理解限制量。</p>
+    </div>
+    <div>
+      <strong>3. RMS Time Constant</strong>
+      <p>越大检测越快、越容易快速压住峰值；越小越平滑。常用起点 50 dB/s。</p>
+    </div>
+    <div>
+      <strong>4. Decay</strong>
+      <p>越大释放越快，越小恢复越慢。常用起点 12 dB/s，觉得抽吸明显就降低。</p>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel preset-panel">
+  <div class="section-heading">
+    <h2>场景预设</h2>
+  </div>
+  <div class="preset-row" aria-label="Limiter 参数预设">
+    <button type="button" data-limiter-preset="safe">保护扬声器</button>
+    <button type="button" data-limiter-preset="smooth">平滑限制</button>
+    <button type="button" data-limiter-preset="fast">快速压峰</button>
+  </div>
+</div>
+
+<div class="split-fields three">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="limiter-sample-rate-input">Sample Rate (Hz)</label>
+    <input id="limiter-sample-rate-input" inputmode="decimal" value="48000" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="limiter-threshold-input">Threshold (dB)</label>
+    <input id="limiter-threshold-input" inputmode="decimal" value="0" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="limiter-input-level-input">输入 RMS 估算 (dB)</label>
+    <input id="limiter-input-level-input" inputmode="decimal" value="-3" />
+  </div>
+</div>
+
+<div class="split-fields three">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="limiter-rms-input">RMS Time Constant (dB/s)</label>
+    <input id="limiter-rms-input" inputmode="decimal" value="50" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="limiter-decay-input">Decay (dB/s)</label>
+    <input id="limiter-decay-input" inputmode="decimal" value="12" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="limiter-output-gain">估算 Limiter Ratio / Gain</label>
+    <input id="limiter-output-gain" readonly value="1" />
+  </div>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>结果抄写表</h2>
+  </div>
+  <div class="result-grid">
+    <div class="result-row">
+      <span>threshold</span>
+      <strong data-limiter-result="threshold">-</strong>
+      <em>Threshold 转线性值</em>
+    </div>
+    <div class="result-row">
+      <span>RMS</span>
+      <strong data-limiter-result="rms">-</strong>
+      <em>RMS Time Constant 系数</em>
+    </div>
+    <div class="result-row">
+      <span>decay</span>
+      <strong data-limiter-result="decay">-</strong>
+      <em>Decay 参数</em>
+    </div>
+    <div class="result-row">
+      <span>decay complement</span>
+      <strong data-limiter-result="decay-complement">-</strong>
+      <em>1 - decay</em>
+    </div>
+    <div class="result-row">
+      <span>limiter ratio</span>
+      <strong data-limiter-result="ratio">-</strong>
+      <em>按输入 RMS 估算的限制增益</em>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="limiter-output">输出</label>
+  <textarea id="limiter-output" readonly spellcheck="false" placeholder="计算结果会显示在这里"></textarea>
+</div>

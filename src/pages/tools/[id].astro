@@ -5,6 +5,7 @@ import JsonTool from "../../components/tools/JsonTool.astro";
 import MultiSourceDelayTool from "../../components/tools/MultiSourceDelayTool.astro";
 import ParametricEqTool from "../../components/tools/ParametricEqTool.astro";
 import SigmaStudioDelayTool from "../../components/tools/SigmaStudioDelayTool.astro";
+import SigmaStudioLimiterTool from "../../components/tools/SigmaStudioLimiterTool.astro";
 import TimestampTool from "../../components/tools/TimestampTool.astro";
 import { tools, type ToolId } from "../../lib/tools";
 
@@ -21,6 +22,7 @@ const toolComponents = {
   base64: Base64Tool,
   timestamp: TimestampTool,
   "sigmastudio-delay": SigmaStudioDelayTool,
+  "sigmastudio-limiter": SigmaStudioLimiterTool,
   "multi-source-delay": MultiSourceDelayTool,
   "parametric-eq": ParametricEqTool,
 };
@@ -88,6 +90,13 @@ const ToolComponent = toolComponents[tool.id as ToolId];
     tool.id === "sigmastudio-delay" && (
       <script>
         import "../../scripts/tools/sigmastudioDelay";
+      </script>
+    )
+  }
+  {
+    tool.id === "sigmastudio-limiter" && (
+      <script>
+        import "../../scripts/tools/sigmastudioLimiter";
       </script>
     )
   }

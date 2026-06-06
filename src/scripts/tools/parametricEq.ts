@@ -24,9 +24,29 @@ let isSyncing = false;
 let historyTimer: number | undefined;
 let currentValues: EqValues | null = null;
 
+const presets: Record<string, EqValues> = {
+  broad: { center: 1000, q: 0.707, gain: 3, left: 517.652, right: 1931.303 },
+  notch: { center: 1000, q: 8, gain: -6, left: 939.453, right: 1064.453 },
+  vocal: { center: 3000, q: 1.2, gain: 2, left: 2015.564, right: 4465.564 },
+};
+
 document.querySelectorAll<HTMLInputElement>("[data-eq-input]").forEach((input) => {
   input.addEventListener("input", () => {
     lastChanged = input.dataset.eqInput as EqInputKind;
+    updateEq();
+  });
+});
+
+document.querySelectorAll<HTMLButtonElement>("[data-eq-preset]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const preset = presets[button.dataset.eqPreset ?? ""];
+
+    if (!preset) {
+      return;
+    }
+
+    lastChanged = "q";
+    syncInputs(preset);
     updateEq();
   });
 });
@@ -156,6 +176,23 @@ function renderOutput(values: EqValues) {
     `Bandwidth: ${formatNumber(bandwidthHz, 3)} Hz`,
     `Bandwidth: ${formatNumber(octaves, 5)} oct`,
   ].join("\n");
+
+  renderResultGrid(values, bandwidthHz, octaves);
+}
+
+function renderResultGrid(values: EqValues, bandwidthHz: number, octaves: number) {
+  setResultValue("center", `${formatNumber(values.center, 3)} Hz`);
+  setResultValue("q", formatNumber(values.q, 5));
+  setResultValue("bandwidth", `${formatNumber(bandwidthHz, 3)} Hz`);
+  setResultValue("octaves", `${formatNumber(octaves, 5)} oct`);
+}
+
+function setResultValue(key: string, value: string) {
+  const target = document.querySelector<HTMLElement>(`[data-eq-result="${key}"]`);
+
+  if (target) {
+    target.textContent = value;
+  }
 }
 
 function scheduleHistorySave(values: EqValues) {
@@ -312,6 +349,9 @@ function readNumber(input: HTMLInputElement) {
 }
 
 function fail(message: string) {
+  document.querySelectorAll<HTMLElement>("[data-eq-result]").forEach((element) => {
+    element.textContent = "-";
+  });
   output.value = "";
   setStatus(message, true);
 }

@@ -1,3 +1,38 @@
+<div class="tool-panel guide-panel">
+  <div class="section-heading">
+    <h2>怎么选参数</h2>
+  </div>
+  <div class="guide-grid">
+    <div>
+      <strong>Sample Rate</strong>
+      <p>填 SigmaStudio 项目的采样率。48 kHz 时 1 sample = 0.020833 ms。</p>
+    </div>
+    <div>
+      <strong>延迟时间 / Samples / 距离</strong>
+      <p>修改任一项即可反推其它项。SigmaStudio 里通常抄整数 samples。</p>
+    </div>
+    <div>
+      <strong>声速</strong>
+      <p>默认 343 m/s。需要按现场温度校正时，勾选气温修正。</p>
+    </div>
+    <div>
+      <strong>Cur / Max</strong>
+      <p>Cur 是四舍五入后的整数 samples，Actual Cur delay 是实际可实现延迟。</p>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel preset-panel">
+  <div class="section-heading">
+    <h2>场景预设</h2>
+  </div>
+  <div class="preset-row" aria-label="Delay 参数预设">
+    <button type="button" data-delay-preset="one-ms">1 ms</button>
+    <button type="button" data-delay-preset="one-meter">1 m 距离</button>
+    <button type="button" data-delay-preset="one-sample">1 sample</button>
+  </div>
+</div>
+
 <div class="split-fields three">
   <div class="tool-panel compact-panel">
     <label class="field-label" for="sample-rate-input">Sample Rate (Hz)</label>
@@ -47,6 +82,34 @@
 <div class="status-line" data-status data-state="ok">
   <span aria-hidden="true">●</span>
   <span>等待处理</span>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>结果抄写表</h2>
+  </div>
+  <div class="result-grid">
+    <div class="result-row">
+      <span>SigmaStudio Cur</span>
+      <strong data-delay-result="cur-samples">-</strong>
+      <em>写入 Delay 的整数 samples</em>
+    </div>
+    <div class="result-row">
+      <span>Actual Delay</span>
+      <strong data-delay-result="actual-delay">-</strong>
+      <em>整数 samples 对应的实际延迟</em>
+    </div>
+    <div class="result-row">
+      <span>Distance</span>
+      <strong data-delay-result="distance">-</strong>
+      <em>当前声速下的声学距离</em>
+    </div>
+    <div class="result-row">
+      <span>1 Sample</span>
+      <strong data-delay-result="one-sample">-</strong>
+      <em>当前采样率下的单 sample 时间</em>
+    </div>
+  </div>
 </div>
 
 <div class="tool-panel">

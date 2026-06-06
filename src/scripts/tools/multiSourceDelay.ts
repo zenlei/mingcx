@@ -54,6 +54,40 @@ const addButton = requireElement<HTMLButtonElement>("[data-source-add]");
 const output = requireElement<HTMLTextAreaElement>("#multi-delay-output");
 const history = createToolHistory("multi-source-delay", restore);
 
+const presets: Record<
+  string,
+  {
+    originDistance: number;
+    extraDelay: number;
+    sources: SourceDistance[];
+  }
+> = {
+  "near-far": {
+    originDistance: 3,
+    extraDelay: 0,
+    sources: [
+      { name: "S1", distance: 4 },
+      { name: "S2", distance: 5 },
+    ],
+  },
+  "small-room": {
+    originDistance: 2.2,
+    extraDelay: 0,
+    sources: [
+      { name: "L", distance: 2.4 },
+      { name: "R", distance: 2.6 },
+    ],
+  },
+  "with-headroom": {
+    originDistance: 3,
+    extraDelay: 1,
+    sources: [
+      { name: "S1", distance: 4 },
+      { name: "S2", distance: 5 },
+    ],
+  },
+};
+
 let historyTimer: number | undefined;
 
 temperatureModeInput.addEventListener("change", () => {
@@ -102,6 +136,24 @@ sourceList.addEventListener("click", (event) => {
 });
 
 sourceList.addEventListener("input", () => calculate());
+
+document.querySelectorAll<HTMLButtonElement>("[data-multi-delay-preset]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const preset = presets[button.dataset.multiDelayPreset ?? ""];
+
+    if (!preset) {
+      return;
+    }
+
+    lockOriginDelayInput.checked = false;
+    syncOriginDelayMode();
+    originDistanceInput.value = formatNumber(preset.originDistance, 6);
+    extraDelayInput.value = formatNumber(preset.extraDelay, 6);
+    sourceList.textContent = "";
+    preset.sources.forEach((source) => addSourceRow(source));
+    calculate();
+  });
+});
 
 history.render();
 syncSoundSpeedMode();
@@ -428,6 +480,10 @@ function renderResult(result: AlignmentResult) {
 
 function renderInlineResults(result: Omit<AlignmentResult, "soundSpeed" | "soundSpeedMode">) {
   originDelayInput.value = formatNumber(result.originDelayMs, 6);
+  setResultValue("anchor", result.anchorName);
+  setResultValue("target", `${formatNumber(result.targetArrivalMs, 6)} ms`);
+  setResultValue("origin-delay", `${formatNumber(result.originDelayMs, 6)} ms`);
+  setResultValue("sound-speed", `${formatNumber(readNumber(soundSpeedInput) ?? DEFAULT_SOUND_SPEED, 4)} m/s`);
 
   const sourceRows = Array.from(sourceList.querySelectorAll<HTMLElement>("[data-source-row]"));
 
@@ -446,6 +502,14 @@ function renderInlineResults(result: Omit<AlignmentResult, "soundSpeed" | "sound
     delayInput.value = formatNumber(row.requiredDelayMs, 6);
     delayInput.dataset.state = row.requiredDelayMs === 0 ? "anchor" : "ok";
   });
+}
+
+function setResultValue(key: string, value: string) {
+  const target = document.querySelector<HTMLElement>(`[data-multi-delay-result="${key}"]`);
+
+  if (target) {
+    target.textContent = value;
+  }
 }
 
 function syncSoundSpeedMode() {
@@ -506,6 +570,9 @@ function fail(message: string) {
 
 function clearRowDelays() {
   originDelayInput.value = "";
+  document.querySelectorAll<HTMLElement>("[data-multi-delay-result]").forEach((element) => {
+    element.textContent = "-";
+  });
   sourceList.querySelectorAll<HTMLInputElement>("[data-source-delay], [data-source-travel]").forEach((input) => {
     input.value = "";
     delete input.dataset.state;
