@@ -1,0 +1,27 @@
+<div class="split-fields">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="timestamp-input">Unix 时间戳</label>
+    <input id="timestamp-input" inputmode="numeric" placeholder="秒或毫秒" />
+    <button type="button" data-time-action="timestamp-to-date">转为日期</button>
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="date-input">本地日期时间</label>
+    <input id="date-input" type="datetime-local" />
+    <button type="button" data-time-action="date-to-timestamp">转为时间戳</button>
+  </div>
+</div>
+
+<div class="action-row" aria-label="时间操作">
+  <button type="button" data-time-action="now">使用当前时间</button>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="timestamp-output">输出</label>
+  <textarea id="timestamp-output" readonly spellcheck="false" placeholder="转换结果会显示在这里"></textarea>
+</div>

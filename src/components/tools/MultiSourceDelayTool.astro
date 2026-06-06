@@ -1,0 +1,87 @@
+<div class="split-fields three">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="sound-speed-input">声速 (m/s)</label>
+    <input id="sound-speed-input" inputmode="decimal" value="343" readonly />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="toggle-field">
+      <input id="temperature-mode-input" type="checkbox" />
+      <span>按气温修正声速</span>
+    </label>
+    <label class="field-label" for="temperature-input">气温 (°C)</label>
+    <input id="temperature-input" inputmode="decimal" value="20" disabled />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="extra-delay-input">额外整体延迟 (ms)</label>
+    <input id="extra-delay-input" inputmode="decimal" value="0" />
+  </div>
+</div>
+
+<div class="tool-panel compact-panel">
+  <label class="field-label" for="origin-distance-input">声音原点到采集点距离 (m)</label>
+  <input id="origin-distance-input" inputmode="decimal" value="3" />
+</div>
+
+<div class="split-fields">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="origin-delay-input">原点推荐延迟 (ms)</label>
+    <input id="origin-delay-input" inputmode="decimal" value="0" readonly />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="toggle-field">
+      <input id="lock-origin-delay-input" type="checkbox" />
+      <span>锁定原点延迟</span>
+    </label>
+    <label class="field-label" for="locked-origin-delay-input">锁定值 (ms)</label>
+    <input id="locked-origin-delay-input" inputmode="decimal" value="0" disabled />
+  </div>
+</div>
+
+<div class="tool-panel source-panel">
+  <div class="section-heading">
+    <h2>声源点</h2>
+    <button class="ghost-button" type="button" data-source-add>增加</button>
+  </div>
+  <div class="source-header distance-header" aria-hidden="true">
+    <span>名称</span>
+    <span>到采集点距离 (m)</span>
+    <span>传播时间 (ms)</span>
+    <span>延迟 (ms)</span>
+    <span></span>
+  </div>
+  <div class="source-list" data-source-list>
+    <div class="source-row distance-row" data-source-row>
+      <input data-source-name value="S1" aria-label="声源名称" placeholder="名称" />
+      <input data-source-distance inputmode="decimal" value="2" aria-label="声源到采集点距离，单位 m" placeholder="距离 (m)" />
+      <input data-source-travel readonly aria-label="声源传播时间，单位 ms" placeholder="自动计算" />
+      <input data-source-delay readonly aria-label="声源延迟，单位 ms" placeholder="自动计算" />
+      <button class="ghost-button icon-button" type="button" data-source-remove title="删除声源">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">删除声源</span>
+      </button>
+    </div>
+    <div class="source-row distance-row" data-source-row>
+      <input data-source-name value="S2" aria-label="声源名称" placeholder="名称" />
+      <input data-source-distance inputmode="decimal" value="5" aria-label="声源到采集点距离，单位 m" placeholder="距离 (m)" />
+      <input data-source-travel readonly aria-label="声源传播时间，单位 ms" placeholder="自动计算" />
+      <input data-source-delay readonly aria-label="声源延迟，单位 ms" placeholder="自动计算" />
+      <button class="ghost-button icon-button" type="button" data-source-remove title="删除声源">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">删除声源</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="multi-delay-output">输出</label>
+  <textarea id="multi-delay-output" readonly spellcheck="false" placeholder="计算结果会显示在这里"></textarea>
+</div>

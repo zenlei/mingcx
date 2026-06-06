@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Base64Tool from "../../components/tools/Base64Tool.astro";
+import JsonTool from "../../components/tools/JsonTool.astro";
+import MultiSourceDelayTool from "../../components/tools/MultiSourceDelayTool.astro";
+import ParametricEqTool from "../../components/tools/ParametricEqTool.astro";
+import SigmaStudioDelayTool from "../../components/tools/SigmaStudioDelayTool.astro";
+import TimestampTool from "../../components/tools/TimestampTool.astro";
+import { tools, type ToolId } from "../../lib/tools";
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { id: tool.id },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const toolComponents = {
+  "json-formatter": JsonTool,
+  base64: Base64Tool,
+  timestamp: TimestampTool,
+  "sigmastudio-delay": SigmaStudioDelayTool,
+  "multi-source-delay": MultiSourceDelayTool,
+  "parametric-eq": ParametricEqTool,
+};
+const ToolComponent = toolComponents[tool.id as ToolId];
+---
+
+<BaseLayout title={tool.title} description={tool.description}>
+  <main class="page-shell tool-page">
+    <nav class="breadcrumbs" aria-label="面包屑">
+      <a href="/">工具列表</a>
+      <span>/</span>
+      <span>{tool.title}</span>
+    </nav>
+
+    <section class="tool-hero">
+      <div>
+        <h1>{tool.title}</h1>
+      </div>
+      <div class="tag-row" aria-label="标签">
+        {tool.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+    </section>
+
+    <div class="tool-workspace" data-tool-id={tool.id}>
+      <section class="workspace-main" aria-label={`${tool.title} 操作区`}>
+        <ToolComponent />
+      </section>
+
+      <aside class="history-panel" aria-label="历史记录">
+        <div class="section-heading">
+          <h2>历史记录</h2>
+          <button class="ghost-button icon-button" data-history-clear type="button" title="清空历史记录" disabled>
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">清空历史记录</span>
+          </button>
+        </div>
+        <p class="empty-state small" data-history-empty>暂无历史</p>
+        <ul class="history-list" data-history-list></ul>
+      </aside>
+    </div>
+  </main>
+
+  {
+    tool.id === "json-formatter" && (
+      <script>
+        import "../../scripts/tools/jsonFormatter";
+      </script>
+    )
+  }
+  {
+    tool.id === "base64" && (
+      <script>
+        import "../../scripts/tools/base64";
+      </script>
+    )
+  }
+  {
+    tool.id === "timestamp" && (
+      <script>
+        import "../../scripts/tools/timestamp";
+      </script>
+    )
+  }
+  {
+    tool.id === "sigmastudio-delay" && (
+      <script>
+        import "../../scripts/tools/sigmastudioDelay";
+      </script>
+    )
+  }
+  {
+    tool.id === "multi-source-delay" && (
+      <script>
+        import "../../scripts/tools/multiSourceDelay";
+      </script>
+    )
+  }
+  {
+    tool.id === "parametric-eq" && (
+      <script>
+        import "../../scripts/tools/parametricEq";
+      </script>
+    )
+  }
+</BaseLayout>

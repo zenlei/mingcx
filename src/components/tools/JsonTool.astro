@@ -1,0 +1,24 @@
+---
+const sampleJson = '{"name":"online-tools","local":true}';
+---
+
+<div class="tool-panel">
+  <label class="field-label" for="json-input">输入 JSON</label>
+  <textarea id="json-input" spellcheck="false" placeholder="粘贴 JSON 内容">{sampleJson}</textarea>
+</div>
+
+<div class="action-row" aria-label="JSON 操作">
+  <button type="button" data-json-action="format">格式化</button>
+  <button type="button" data-json-action="minify">压缩</button>
+  <button type="button" data-json-action="validate">校验</button>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="json-output">输出</label>
+  <textarea id="json-output" readonly spellcheck="false" placeholder="处理结果会显示在这里"></textarea>
+</div>

@@ -1,0 +1,42 @@
+<div class="split-fields three">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="eq-center-input">中心频点 (Hz)</label>
+    <input id="eq-center-input" inputmode="decimal" value="1000" data-eq-input="center" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="eq-q-input">Q</label>
+    <input id="eq-q-input" inputmode="decimal" value="1.414" data-eq-input="q" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="eq-gain-input">增益 (dB)</label>
+    <input id="eq-gain-input" inputmode="decimal" value="6" data-eq-input="gain" />
+  </div>
+</div>
+
+<div class="split-fields">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="eq-left-input">左频点 (Hz)</label>
+    <input id="eq-left-input" inputmode="decimal" value="707.071" data-eq-input="left" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="eq-right-input">右频点 (Hz)</label>
+    <input id="eq-right-input" inputmode="decimal" value="1414.285" data-eq-input="right" />
+  </div>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <canvas class="eq-canvas" id="eq-canvas" width="960" height="420" aria-label="EQ 曲线"></canvas>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="eq-output">输出</label>
+  <textarea id="eq-output" readonly spellcheck="false" placeholder="计算结果会显示在这里"></textarea>
+</div>

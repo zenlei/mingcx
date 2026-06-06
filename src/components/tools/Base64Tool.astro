@@ -1,0 +1,20 @@
+<div class="tool-panel">
+  <label class="field-label" for="base64-input">输入文本</label>
+  <textarea id="base64-input" spellcheck="false" placeholder="输入文本或 Base64">Hello, online tools!</textarea>
+</div>
+
+<div class="action-row" aria-label="Base64 操作">
+  <button type="button" data-base64-action="encode">编码</button>
+  <button type="button" data-base64-action="decode">解码</button>
+  <button type="button" data-base64-action="swap" disabled>交换</button>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="base64-output">输出</label>
+  <textarea id="base64-output" readonly spellcheck="false" placeholder="处理结果会显示在这里"></textarea>
+</div>

@@ -1,0 +1,55 @@
+<div class="split-fields three">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="sample-rate-input">Sample Rate (Hz)</label>
+    <input id="sample-rate-input" inputmode="decimal" value="48000" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="sound-speed-input">声速 (m/s)</label>
+    <input id="sound-speed-input" inputmode="decimal" value="343" readonly />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="toggle-field">
+      <input id="temperature-mode-input" type="checkbox" />
+      <span>按气温修正声速</span>
+    </label>
+    <label class="field-label" for="temperature-input">气温 (°C)</label>
+    <input id="temperature-input" inputmode="decimal" value="20" disabled />
+  </div>
+</div>
+
+<div class="split-fields three">
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="delay-ms-input">延迟时间 (ms)</label>
+    <input id="delay-ms-input" inputmode="decimal" value="1" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="samples-input">Samples</label>
+    <input id="samples-input" inputmode="decimal" value="48" />
+  </div>
+
+  <div class="tool-panel compact-panel">
+    <label class="field-label" for="distance-input">距离</label>
+    <div class="inline-field">
+      <input id="distance-input" inputmode="decimal" value="0.343" />
+      <select id="distance-unit">
+        <option value="m">m</option>
+        <option value="cm">cm</option>
+        <option value="ft">ft</option>
+        <option value="in">in</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="delay-output">输出</label>
+  <textarea id="delay-output" readonly spellcheck="false" placeholder="换算结果会显示在这里"></textarea>
+</div>

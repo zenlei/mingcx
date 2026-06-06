@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { tools } from "../lib/tools";
+---
+
+<BaseLayout title="Ming's Tools" description="浏览器本地运行的个人开发小工具集合。">
+  <main class="page-shell">
+    <section class="tool-directory" aria-label="工具列表">
+      <div class="directory-toolbar">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <span class="sr-only">搜索工具</span>
+          <input id="tool-search" placeholder="搜索工具、标签或分类" type="search" />
+        </label>
+      </div>
+
+      <section aria-labelledby="all-tools-title">
+        <h1 class="sr-only" id="all-tools-title">工具列表</h1>
+        <span class="sr-only" id="tool-count">{tools.length} / {tools.length}</span>
+        <div class="tool-grid" id="all-tools">
+          {
+            tools.map((tool) => (
+              <a
+                class="tool-card"
+                href={tool.path}
+                data-tool-card
+                data-tool-id={tool.id}
+                data-search={`${tool.title} ${tool.description} ${tool.category} ${tool.tags.join(" ")}`.toLowerCase()}
+              >
+                <span class="tool-card-topline">
+                  <span>{tool.category}</span>
+                </span>
+                <strong>{tool.title}</strong>
+                <span class="tag-row small">
+                  {tool.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+                </span>
+              </a>
+            ))
+          }
+        </div>
+        <p class="empty-state" id="tool-empty" hidden>没有找到匹配的工具。</p>
+      </section>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ tools }}>
+    window.ONLINE_TOOLS = tools;
+  </script>
+  <script>
+    import "../scripts/home";
+  </script>
+</BaseLayout>
