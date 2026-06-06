@@ -35,14 +35,19 @@ X-Monitor-Token: <MONITOR_API_TOKEN>
 Configured in `wrangler.toml`:
 
 ```toml
-SUB2API_BASE_URL = "https://your-sub2api.example.com"
-CORS_ORIGIN = "*"
 CACHE_TTL_SECONDS = "120"
 DEFAULT_TIMEZONE = "Asia/Shanghai"
 WORKER_ROUTE_PREFIX = "/monitor"
 ```
 
-Set `CORS_ORIGIN` to your Pages domain in production.
+Set these deployment-specific vars in Cloudflare Dashboard, not in `wrangler.toml`, so deploys do not overwrite them:
+
+```text
+SUB2API_BASE_URL
+CORS_ORIGIN
+```
+
+Set `CORS_ORIGIN` to your Pages domain in production, for example `https://your-domain.example`.
 
 `WORKER_ROUTE_PREFIX` lets the same Worker run at both the root path and a custom route such as `https://your-domain.example/monitor/*`.
 

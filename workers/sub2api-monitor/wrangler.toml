@@ -3,11 +3,14 @@ main = "src/index.ts"
 compatibility_date = "2026-06-01"
 
 [vars]
-SUB2API_BASE_URL = "https://your-sub2api.example.com"
-CORS_ORIGIN = "*"
 CACHE_TTL_SECONDS = "120"
 DEFAULT_TIMEZONE = "Asia/Shanghai"
 WORKER_ROUTE_PREFIX = "/monitor"
+
+# Set deployment-specific vars in Cloudflare Dashboard so deploys do not
+# overwrite them:
+# SUB2API_BASE_URL
+# CORS_ORIGIN
 
 # Set these as secrets:
 # wrangler secret put SUB2API_JWT
