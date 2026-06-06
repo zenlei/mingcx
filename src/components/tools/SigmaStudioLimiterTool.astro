@@ -17,19 +17,19 @@
   <div class="guide-grid">
     <div>
       <strong>1. Threshold</strong>
-      <p>设成你希望开始限制的 RMS 电平。音频系统常从 -6 dB 到 0 dB 试起。</p>
+      <p>限制器开始压缩的 RMS 阈值。超过该电平的信号会被压限。音频系统常从 -6 dB 到 0 dB 开始调试。</p>
     </div>
     <div>
       <strong>2. 输入 RMS 估算</strong>
-      <p>填当前信号的估算 RMS。它只用于估算 Limiter Ratio / Gain，方便你理解限制量。</p>
+      <p>输入信号的大致 RMS 电平。仅用于估算增益衰减量，不影响实际参数计算，帮你判断限制深度是否合理。</p>
     </div>
     <div>
       <strong>3. RMS Time Constant</strong>
-      <p>越大检测越快、越容易快速压住峰值；越小越平滑。常用起点 50 dB/s。</p>
+      <p>值越大检测包络越快，能更快压住瞬态峰值；值越小越平滑，适合整体音量控制。调试起点建议 50 dB/s。</p>
     </div>
     <div>
       <strong>4. Decay</strong>
-      <p>越大释放越快，越小恢复越慢。常用起点 12 dB/s，觉得抽吸明显就降低。</p>
+      <p>值越大释放越快，越小恢复越慢。调试起点建议 12 dB/s。若听到明显的音量起伏（pumping），减小 Decay 值。</p>
     </div>
   </div>
 </div>

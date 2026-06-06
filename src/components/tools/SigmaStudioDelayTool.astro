@@ -5,19 +5,19 @@
   <div class="guide-grid">
     <div>
       <strong>Sample Rate</strong>
-      <p>填 SigmaStudio 项目的采样率。48 kHz 时 1 sample = 0.020833 ms。</p>
+      <p>填入 SigmaStudio 工程的采样率（如 48000）。采样率决定单 sample 的时间长度。</p>
     </div>
     <div>
       <strong>延迟时间 / Samples / 距离</strong>
-      <p>修改任一项即可反推其它项。SigmaStudio 里通常抄整数 samples。</p>
+      <p>延迟时间、Samples、声学距离三项联动，改任意一个另外两个自动换算。SigmaStudio 中通常填入整数 Samples。</p>
     </div>
     <div>
       <strong>声速</strong>
-      <p>默认 343 m/s。需要按现场温度校正时，勾选气温修正。</p>
+      <p>默认 343 m/s（20°C）。如需根据现场气温修正，勾选下方"按气温修正声速"。</p>
     </div>
     <div>
       <strong>Cur / Max</strong>
-      <p>Cur 是四舍五入后的整数 samples，Actual Cur delay 是实际可实现延迟。</p>
+      <p>Cur = 四舍五入后的整数 Samples，即实际写入 Delay 模块的值。Actual Delay = 该整数 Samples 对应的真实延迟时间（与理想值有舍入误差）。</p>
     </div>
   </div>
 </div>
