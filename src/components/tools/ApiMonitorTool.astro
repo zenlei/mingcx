@@ -1,0 +1,117 @@
+<div class="tool-panel monitor-panel">
+  <div class="monitor-toolbar">
+    <div class="range-tabs" role="tablist" aria-label="统计范围">
+      <button type="button" data-range="today" aria-pressed="true">今日</button>
+      <button type="button" data-range="5d" aria-pressed="false">5天</button>
+      <button type="button" data-range="7d" aria-pressed="false">7天</button>
+      <button type="button" data-range="30d" aria-pressed="false">30天</button>
+    </div>
+    <div class="monitor-actions">
+      <div class="range-tabs token-unit-tabs" role="tablist" aria-label="Token 单位">
+        <button type="button" data-token-unit="raw" aria-pressed="false">Token</button>
+        <button type="button" data-token-unit="k" aria-pressed="false">K</button>
+        <button type="button" data-token-unit="m" aria-pressed="true">M</button>
+      </div>
+      <button class="ghost-button monitor-refresh" type="button" data-refresh>刷新</button>
+    </div>
+  </div>
+
+  <div class="status-line" data-monitor-status data-state="ok">
+    <span aria-hidden="true">●</span>
+    <span>准备加载 API 使用数据</span>
+  </div>
+
+  <section class="monitor-section" aria-labelledby="sub2api-title">
+    <div class="section-heading">
+      <h2 id="sub2api-title">Sub2API</h2>
+      <span>请求与 Token 聚合</span>
+    </div>
+    <div class="metric-grid" aria-label="Sub2API 用量总览">
+      <div class="metric-tile">
+        <span>请求数</span>
+        <strong data-metric="total_requests">--</strong>
+      </div>
+      <div class="metric-tile">
+        <span>Total Tokens</span>
+        <strong data-metric="total_tokens">--</strong>
+      </div>
+      <div class="metric-tile">
+        <span>Input Tokens</span>
+        <strong data-metric="total_input_tokens">--</strong>
+      </div>
+      <div class="metric-tile">
+        <span>Output Tokens</span>
+        <strong data-metric="total_output_tokens">--</strong>
+      </div>
+      <div class="metric-tile">
+        <span>Cache Tokens</span>
+        <strong data-metric="total_cache_tokens">--</strong>
+      </div>
+      <div class="metric-tile">
+        <span>费用</span>
+        <strong data-metric="total_cost">--</strong>
+      </div>
+    </div>
+
+    <div class="subsection-heading">
+      <h3>Sub2API 模型分布</h3>
+      <span data-model-count>--</span>
+    </div>
+    <div class="monitor-table-wrap">
+      <table class="monitor-table">
+        <thead>
+          <tr>
+            <th>模型</th>
+            <th>请求</th>
+            <th data-token-heading>Tokens (M)</th>
+            <th>费用</th>
+          </tr>
+        </thead>
+        <tbody data-model-table>
+          <tr>
+            <td colspan="4">暂无数据</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="monitor-section" aria-labelledby="opencode-title">
+    <div class="section-heading">
+      <h2 id="opencode-title">OpenCode Go</h2>
+      <span data-opencode-status>--</span>
+    </div>
+    <div class="usage-grid" aria-label="OpenCode Go 用量">
+      <div class="usage-tile" data-opencode-card="rollingUsage">
+        <div class="usage-tile-header">
+          <span>Rolling</span>
+          <strong data-opencode-percent="rollingUsage">--</strong>
+        </div>
+        <div class="usage-meter" aria-hidden="true">
+          <span data-opencode-bar="rollingUsage"></span>
+        </div>
+        <p data-opencode-reset="rollingUsage">--</p>
+      </div>
+      <div class="usage-tile" data-opencode-card="weeklyUsage">
+        <div class="usage-tile-header">
+          <span>Weekly</span>
+          <strong data-opencode-percent="weeklyUsage">--</strong>
+        </div>
+        <div class="usage-meter" aria-hidden="true">
+          <span data-opencode-bar="weeklyUsage"></span>
+        </div>
+        <p data-opencode-reset="weeklyUsage">--</p>
+      </div>
+      <div class="usage-tile" data-opencode-card="monthlyUsage">
+        <div class="usage-tile-header">
+          <span>Monthly</span>
+          <strong data-opencode-percent="monthlyUsage">--</strong>
+        </div>
+        <div class="usage-meter" aria-hidden="true">
+          <span data-opencode-bar="monthlyUsage"></span>
+        </div>
+        <p data-opencode-reset="monthlyUsage">--</p>
+      </div>
+    </div>
+  </section>
+</div>

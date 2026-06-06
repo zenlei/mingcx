@@ -1,0 +1,17 @@
+name = "sub2api-monitor"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+
+[vars]
+SUB2API_BASE_URL = "https://your-sub2api.example.com"
+CORS_ORIGIN = "*"
+CACHE_TTL_SECONDS = "120"
+DEFAULT_TIMEZONE = "Asia/Shanghai"
+WORKER_ROUTE_PREFIX = "/monitor"
+
+# Set these as secrets:
+# wrangler secret put SUB2API_JWT
+# wrangler secret put SUB2API_REFRESH_TOKEN
+# wrangler secret put MONITOR_API_TOKEN
+# wrangler secret put OPENCODE_GO_WORKSPACE_ID
+# wrangler secret put OPENCODE_GO_AUTH_COOKIE

@@ -8,7 +8,12 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
-    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "worker:check": "tsc -p workers/sub2api-monitor/tsconfig.json --noEmit",
+    "worker:dev": "wrangler dev --config workers/sub2api-monitor/wrangler.toml",
+    "worker:deploy": "wrangler deploy --config workers/sub2api-monitor/wrangler.toml",
+    "api:dev": "node scripts/sub2api-monitor-local.mjs",
+    "monitor:dev": "node scripts/start-monitor-local.mjs"
   },
   "dependencies": {
     "astro": "^6.4.4"

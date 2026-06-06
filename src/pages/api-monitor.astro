@@ -1,0 +1,35 @@
+---
+import ApiMonitorTool from "../components/tools/ApiMonitorTool.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="API 监控" description="查看 Sub2API 与 OpenCode Go 的使用情况。">
+  <main class="page-shell tool-page private-page">
+    <nav class="breadcrumbs" aria-label="面包屑">
+      <a href="/">工具列表</a>
+      <span>/</span>
+      <span>API 监控</span>
+    </nav>
+
+    <section class="tool-hero">
+      <div>
+        <h1>API 监控</h1>
+      </div>
+      <div class="tag-row" aria-label="标签">
+        <span>API</span>
+        <span>Token</span>
+        <span>费用</span>
+        <span>模型</span>
+        <span>OpenCode Go</span>
+      </div>
+    </section>
+
+    <section class="workspace-main" aria-label="API 监控操作区">
+      <ApiMonitorTool />
+    </section>
+  </main>
+
+  <script>
+    import "../scripts/tools/apiMonitor";
+  </script>
+</BaseLayout>
