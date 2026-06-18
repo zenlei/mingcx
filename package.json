@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node scripts/start-local.mjs",
+    "local": "node scripts/start-local.mjs",
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",

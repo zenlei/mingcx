@@ -2,6 +2,7 @@ export type ToolId =
   | "json-formatter"
   | "base64"
   | "timestamp"
+  | "credentials-generator"
   | "sigmastudio-delay"
   | "sigmastudio-limiter"
   | "multi-source-delay"
@@ -40,6 +41,14 @@ export const tools: ToolMeta[] = [
     category: "时间",
     tags: ["时间戳", "Unix", "ISO", "日期"],
     path: "/tools/timestamp",
+  },
+  {
+    id: "credentials-generator",
+    title: "Credentials Generator",
+    description: "为 .env 生成浏览器本地随机密钥。",
+    category: "开发",
+    tags: [".env", "Secret", "Credentials", "随机密钥"],
+    path: "/tools/credentials-generator",
   },
   {
     id: "sigmastudio-delay",

@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 
-const host = process.env.HOST || "127.0.0.1";
-const port = process.env.PORT || "4321";
+const host = process.env.LOCAL_HOST || process.env.HOST || "127.0.0.1";
+const port = process.env.LOCAL_PORT || process.env.PORT || "4321";
 const url = `http://${host}:${port}/`;
 
 console.log(`Starting online-tools at ${url}`);

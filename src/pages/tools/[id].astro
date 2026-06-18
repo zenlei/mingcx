@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Base64Tool from "../../components/tools/Base64Tool.astro";
+import CredentialsGeneratorTool from "../../components/tools/CredentialsGeneratorTool.astro";
 import JsonTool from "../../components/tools/JsonTool.astro";
 import MultiSourceDelayTool from "../../components/tools/MultiSourceDelayTool.astro";
 import ParametricEqTool from "../../components/tools/ParametricEqTool.astro";
@@ -21,6 +22,7 @@ const toolComponents = {
   "json-formatter": JsonTool,
   base64: Base64Tool,
   timestamp: TimestampTool,
+  "credentials-generator": CredentialsGeneratorTool,
   "sigmastudio-delay": SigmaStudioDelayTool,
   "sigmastudio-limiter": SigmaStudioLimiterTool,
   "multi-source-delay": MultiSourceDelayTool,
@@ -83,6 +85,13 @@ const ToolComponent = toolComponents[tool.id as ToolId];
     tool.id === "timestamp" && (
       <script>
         import "../../scripts/tools/timestamp";
+      </script>
+    )
+  }
+  {
+    tool.id === "credentials-generator" && (
+      <script>
+        import "../../scripts/tools/credentialsGenerator";
       </script>
     )
   }
