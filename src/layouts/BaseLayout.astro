@@ -4,9 +4,11 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  sourceUrl?: string;
+  sourceLabel?: string;
 }
 
-const { title, description = "一个本地运行的个人小工具箱。" } = Astro.props;
+const { title, description = "一个本地运行的个人小工具箱。", sourceUrl, sourceLabel = "引用来源" } = Astro.props;
 const siteTitle = "Ming's Tools";
 const pageTitle = title === siteTitle ? title : `${title} - ${siteTitle}`;
 ---
@@ -32,6 +34,16 @@ const pageTitle = title === siteTitle ? title : `${title} - ${siteTitle}`;
     <slot />
     <footer class="site-footer">
       <a href="https://icp.gov.moe/?keyword=20265535" target="_blank">萌ICP备20265535号</a>
+      {
+        sourceUrl && (
+          <>
+            <span aria-hidden="true"> · </span>
+            <a href={sourceUrl} target="_blank" rel="noreferrer">
+              {sourceLabel}
+            </a>
+          </>
+        )
+      }
     </footer>
   </body>
 </html>

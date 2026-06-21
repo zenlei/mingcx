@@ -1,0 +1,541 @@
+<div class="tool-panel compact-panel vram-toolbar">
+  <div>
+    <p class="eyebrow">VRAM Calculator</p>
+    <h2>LLM 推理: 显存与性能计算器</h2>
+  </div>
+  <div class="toolbar-actions">
+    <button type="button" class="tool-action-button" id="vram-share-button">分享配置</button>
+  </div>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel compact-panel">
+  <div class="range-tabs vram-mode-tabs" aria-label="计算模式">
+    <button type="button" data-vram-mode="inference" aria-pressed="true">推理</button>
+    <button type="button" data-vram-mode="finetuning" aria-pressed="false">微调</button>
+  </div>
+</div>
+
+<div class="tool-panel preset-panel">
+  <div class="section-heading">
+    <h2>场景预设</h2>
+  </div>
+  <div class="preset-row" aria-label="VRAM 场景预设">
+    <button type="button" data-vram-preset="source-default">DeepSeek-R1 3B</button>
+    <button type="button" data-vram-preset="local">本地 7B 推理</button>
+    <button type="button" data-vram-preset="moe">MoE 长上下文</button>
+    <button type="button" data-vram-preset="lora">LoRA 微调</button>
+  </div>
+</div>
+
+<div class="tool-panel compact-panel">
+  <div class="section-heading">
+    <h2>模型与精度</h2>
+  </div>
+  <div class="split-fields">
+    <div>
+      <label class="field-label" for="vram-model-select">选择模型</label>
+      <select id="vram-model-select" data-vram-input></select>
+    </div>
+    <div data-vram-finetune-field hidden>
+      <label class="field-label" for="vram-finetune-method-select">微调方法</label>
+      <select id="vram-finetune-method-select" data-vram-input>
+        <option value="full">全参数微调</option>
+        <option value="lora">LoRA</option>
+        <option value="qlora">QLoRA</option>
+      </select>
+    </div>
+  </div>
+  <div class="split-fields three">
+    <div data-vram-inference-field>
+      <label class="field-label" for="vram-precision-select">推理量化</label>
+      <select id="vram-precision-select" data-vram-input>
+        <option value="fp16">FP16 / BF16</option>
+        <option value="q8">Q8</option>
+        <option value="q6">Q6</option>
+        <option value="q5">Q5</option>
+        <option value="q4">Q4</option>
+        <option value="q3">Q3</option>
+      </select>
+    </div>
+    <div data-vram-finetune-field hidden>
+      <label class="field-label" for="vram-ft-precision-select">基础模型精度</label>
+      <select id="vram-ft-precision-select" data-vram-input>
+        <option value="fp16">FP16 / BF16</option>
+        <option value="fp32">FP32</option>
+        <option value="q8">Q8</option>
+        <option value="q4">Q4</option>
+      </select>
+    </div>
+    <div data-vram-inference-field>
+      <label class="field-label" for="vram-kv-select">KV 缓存量化</label>
+      <select id="vram-kv-select" data-vram-input>
+        <option value="fp16">FP16 / BF16 (默认)</option>
+        <option value="q8">Q8</option>
+        <option value="q4">Q4</option>
+      </select>
+    </div>
+    <div data-vram-finetune-field hidden>
+      <label class="field-label" for="vram-lora-rank-input">LoRA 秩</label>
+      <div class="vram-slider-field">
+        <input id="vram-lora-rank-range" type="range" min="1" max="256" step="1" value="16" data-vram-slider="vram-lora-rank-input" />
+        <input id="vram-lora-rank-input" inputmode="numeric" value="16" data-vram-input data-vram-number="vram-lora-rank-range" />
+      </div>
+      <div class="vram-range-marks"><span>1</span><span>64</span><span>128</span><span>192</span><span>256</span></div>
+    </div>
+    <div>
+      <label class="field-label" for="vram-framework-input">框架开销 (%)</label>
+      <div class="vram-slider-field">
+        <input id="vram-framework-range" type="range" min="0" max="30" step="1" value="12" data-vram-slider="vram-framework-input" />
+        <input id="vram-framework-input" inputmode="decimal" value="12" data-vram-input data-vram-number="vram-framework-range" />
+      </div>
+      <div class="vram-range-marks"><span>0</span><span>8</span><span>15</span><span>22</span><span>30</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel compact-panel">
+  <div class="section-heading">
+    <h2>硬件配置</h2>
+  </div>
+  <div class="split-fields">
+    <div>
+      <label class="field-label" for="vram-gpu-select">设备 / GPU</label>
+      <select id="vram-gpu-select" data-vram-input></select>
+    </div>
+    <div>
+      <label class="field-label" for="vram-devices-input">GPU / 设备数量</label>
+      <div class="vram-slider-field">
+        <input id="vram-devices-range" type="range" min="1" max="16" step="1" value="1" data-vram-slider="vram-devices-input" />
+        <input id="vram-devices-input" inputmode="numeric" value="1" data-vram-input data-vram-number="vram-devices-range" />
+      </div>
+      <div class="vram-range-marks"><span>1</span><span>4</span><span>8</span><span>12</span><span>16</span></div>
+    </div>
+  </div>
+  <div class="split-fields three">
+    <div>
+      <label class="field-label" for="vram-device-memory-input">单设备显存 / 统一内存 (GB)</label>
+      <div class="vram-slider-field">
+        <input id="vram-device-memory-range" type="range" min="1" max="512" step="1" value="12" data-vram-slider="vram-device-memory-input" />
+        <input id="vram-device-memory-input" inputmode="decimal" value="12" data-vram-input data-vram-number="vram-device-memory-range" />
+      </div>
+      <div class="vram-range-marks"><span>1</span><span>128</span><span>256</span><span>384</span><span>512</span></div>
+    </div>
+    <div>
+      <label class="field-label" for="vram-interconnect-select">多卡互联</label>
+      <select id="vram-interconnect-select" data-vram-input>
+        <optgroup label="High Speed">
+          <option value="nvlink_gen6">NVLink Gen 6 (Pro)</option>
+          <option value="nvlink_gen5">NVLink Gen 5 (Pro)</option>
+          <option value="nvlink_gen4">NVLink Gen 4</option>
+          <option value="nvlink_gen3">NVLink Gen 3</option>
+          <option value="nvlink_gen2">NVLink Gen 2</option>
+          <option value="nvlink_bridge">NVLink Bridge</option>
+          <option value="infiniband_hdr">InfiniBand HDR (Pro)</option>
+          <option value="infiniband_edr">InfiniBand EDR (Pro)</option>
+        </optgroup>
+        <optgroup label="PCIe">
+          <option value="pcie5">PCIe 5.0</option>
+          <option value="pcie4" selected>PCIe 4.0</option>
+          <option value="pcie3">PCIe 3.0</option>
+        </optgroup>
+        <optgroup label="Network">
+          <option value="ethernet400g">Ethernet 400G (Pro)</option>
+          <option value="ethernet200g">Ethernet 200G (Pro)</option>
+          <option value="ethernet100g">Ethernet 100G</option>
+          <option value="ethernet25g">Ethernet 25G</option>
+          <option value="ethernet10g">Ethernet 10G</option>
+          <option value="ethernet1g">Ethernet 1G</option>
+        </optgroup>
+      </select>
+    </div>
+    <div data-vram-inference-field>
+      <label class="field-label" for="vram-parallelism-select">推理并行</label>
+      <select id="vram-parallelism-select" data-vram-input>
+        <option value="tensor">张量并行</option>
+        <option value="pipeline">流水线并行</option>
+        <option value="replicated">副本 / 数据并行 (Pro)</option>
+      </select>
+    </div>
+  </div>
+  <div class="split-fields three">
+    <div>
+      <label class="field-label" for="vram-profile-select">硬件配置文件</label>
+      <select id="vram-profile-select">
+        <option value="">本地配置文件</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label" for="vram-profile-name">配置名称</label>
+      <input id="vram-profile-name" value="My GPU Rig" />
+    </div>
+    <div class="vram-inline-buttons">
+      <button type="button" id="vram-save-profile">保存配置</button>
+      <button type="button" id="vram-delete-profile">删除</button>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel compact-panel">
+  <div class="section-heading">
+    <h2>输入参数</h2>
+  </div>
+  <div class="split-fields vram-input-stack">
+    <div>
+      <label class="field-label" for="vram-batch-input">批量大小</label>
+      <div class="vram-slider-field">
+        <div class="vram-slider-track">
+          <input id="vram-batch-range" type="range" min="1" max="8" step="1" value="1" data-vram-slider="vram-batch-input" />
+          <div class="vram-range-marks vram-marks-1-8"><span>1</span><span>2</span><span>4</span><span>6</span><span>8</span></div>
+        </div>
+        <input id="vram-batch-input" inputmode="numeric" value="1" data-vram-input data-vram-number="vram-batch-range" />
+      </div>
+      <label class="toggle-field small-toggle">
+        <input id="vram-batch-log-input" type="checkbox" data-vram-input />
+        <span>Log scale</span>
+      </label>
+      <p class="vram-slider-help">每步同时处理的输入数，影响吞吐量和延迟。</p>
+    </div>
+    <div>
+      <label class="field-label" for="vram-sequence-input">序列长度</label>
+      <div class="vram-slider-field">
+        <div class="vram-slider-track">
+          <input id="vram-sequence-range" type="range" min="1024" max="32768" step="1024" value="1024" data-vram-slider="vram-sequence-input" />
+          <div class="vram-range-marks vram-marks-sequence"><span>2K</span><span>4K</span><span>8K</span><span>16K</span><span>33K</span></div>
+        </div>
+        <input id="vram-sequence-input" inputmode="numeric" value="1024" data-vram-input data-vram-number="vram-sequence-range" />
+      </div>
+      <p class="vram-slider-help">每个输入的最大 token 数，影响 KV cache 和激活。</p>
+    </div>
+    <div data-vram-inference-field>
+      <label class="field-label" for="vram-users-input">并发用户数</label>
+      <div class="vram-slider-field">
+        <div class="vram-slider-track">
+          <input id="vram-users-range" type="range" min="1" max="8" step="1" value="1" data-vram-slider="vram-users-input" />
+          <div class="vram-range-marks vram-marks-1-8"><span>1</span><span>2</span><span>4</span><span>6</span><span>8</span></div>
+        </div>
+        <input id="vram-users-input" inputmode="numeric" value="1" data-vram-input data-vram-number="vram-users-range" />
+      </div>
+      <label class="toggle-field small-toggle">
+        <input id="vram-users-log-input" type="checkbox" data-vram-input />
+        <span>Log scale</span>
+      </label>
+      <p class="vram-slider-help">同时进行推理的用户数，影响内存和每用户性能。</p>
+    </div>
+    <div data-vram-finetune-field hidden>
+      <label class="field-label" for="vram-grad-accum-input">梯度累积步数</label>
+      <div class="vram-slider-field">
+        <input id="vram-grad-accum-range" type="range" min="1" max="64" step="1" value="1" data-vram-slider="vram-grad-accum-input" />
+        <input id="vram-grad-accum-input" inputmode="numeric" value="1" data-vram-input data-vram-number="vram-grad-accum-range" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel compact-panel">
+  <div class="section-heading">
+    <h2>卸载与推理优化</h2>
+  </div>
+  <div class="split-fields three">
+    <label class="toggle-field">
+      <input id="vram-offload-input" type="checkbox" data-vram-input />
+      <span>启用卸载到 CPU/RAM 或 NVMe</span>
+    </label>
+    <div>
+      <label class="field-label" for="vram-offload-target-select">卸载目标</label>
+      <select id="vram-offload-target-select" data-vram-input>
+        <option value="cpu_ram">CPU/RAM</option>
+        <option value="nvme">NVMe Drive</option>
+      </select>
+    </div>
+    <label class="toggle-field">
+      <input id="vram-offload-kv-input" type="checkbox" data-vram-input />
+      <span>卸载 KV cache</span>
+    </label>
+  </div>
+  <div class="split-fields three">
+    <label class="toggle-field">
+      <input id="vram-layer-offload-input" type="checkbox" data-vram-input />
+      <span>按层卸载</span>
+    </label>
+    <div>
+      <label class="field-label" for="vram-offload-layers-input">卸载层数</label>
+      <div class="vram-slider-field">
+        <input id="vram-offload-layers-range" type="range" min="0" max="256" step="1" value="0" data-vram-slider="vram-offload-layers-input" />
+        <input id="vram-offload-layers-input" inputmode="numeric" value="0" data-vram-input data-vram-number="vram-offload-layers-range" />
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="vram-offload-percent-input">卸载比例 (%)</label>
+      <div class="vram-slider-field">
+        <input id="vram-offload-percent-range" type="range" min="0" max="95" step="1" value="0" data-vram-slider="vram-offload-percent-input" />
+        <input id="vram-offload-percent-input" inputmode="decimal" value="0" data-vram-input data-vram-number="vram-offload-percent-range" />
+      </div>
+    </div>
+  </div>
+  <div class="split-fields three" data-vram-inference-field>
+    <label class="toggle-field">
+      <input id="vram-prefix-cache-input" type="checkbox" checked data-vram-input />
+      <span>启用 Prefix Caching</span>
+    </label>
+    <div>
+      <label class="field-label" for="vram-prefix-ratio-input">共享前缀比例 (%)</label>
+      <div class="vram-slider-field">
+        <input id="vram-prefix-ratio-range" type="range" min="0" max="100" step="1" value="80" data-vram-slider="vram-prefix-ratio-input" />
+        <input id="vram-prefix-ratio-input" inputmode="decimal" value="80" data-vram-input data-vram-number="vram-prefix-ratio-range" />
+      </div>
+    </div>
+    <label class="toggle-field">
+      <input id="vram-continuous-batching-input" type="checkbox" data-vram-input />
+      <span>Continuous Batching</span>
+    </label>
+  </div>
+</div>
+
+<div class="tool-panel compact-panel" data-vram-finetune-field hidden>
+  <div class="section-heading">
+    <h2>训练数据与优化器</h2>
+  </div>
+  <div class="split-fields three">
+    <div>
+      <label class="field-label" for="vram-samples-input">样本数</label>
+      <div class="vram-slider-field">
+        <input id="vram-samples-range" type="range" min="100" max="1000000" step="100" value="10000" data-vram-slider="vram-samples-input" />
+        <input id="vram-samples-input" inputmode="numeric" value="10000" data-vram-input data-vram-number="vram-samples-range" />
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="vram-tokens-sample-input">每样本 tokens</label>
+      <div class="vram-slider-field">
+        <input id="vram-tokens-sample-range" type="range" min="64" max="8192" step="64" value="512" data-vram-slider="vram-tokens-sample-input" />
+        <input id="vram-tokens-sample-input" inputmode="numeric" value="512" data-vram-input data-vram-number="vram-tokens-sample-range" />
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="vram-epochs-input">Epochs</label>
+      <div class="vram-slider-field">
+        <input id="vram-epochs-range" type="range" min="1" max="20" step="1" value="3" data-vram-slider="vram-epochs-input" />
+        <input id="vram-epochs-input" inputmode="numeric" value="3" data-vram-input data-vram-number="vram-epochs-range" />
+      </div>
+    </div>
+  </div>
+  <div class="split-fields three">
+    <div>
+      <label class="field-label" for="vram-opt-preset-select">优化预设</label>
+      <select id="vram-opt-preset-select" data-vram-input>
+        <option value="default">Default</option>
+        <option value="memory_efficient">Memory Efficient</option>
+        <option value="speed_optimized">Speed Optimized</option>
+        <option value="deepspeed_zero2">DeepSpeed ZeRO-2 (Pro)</option>
+        <option value="deepspeed_zero3">DeepSpeed ZeRO-3 (Pro)</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label" for="vram-optimizer-select">优化器</label>
+      <select id="vram-optimizer-select" data-vram-input>
+        <option value="adamw">AdamW</option>
+        <option value="adamw_torch">AdamW Torch</option>
+        <option value="adamw_8bit">AdamW 8-bit</option>
+        <option value="paged_adamw_8bit">Paged AdamW 8-bit</option>
+        <option value="sgd">SGD</option>
+        <option value="adafactor">Adafactor</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label" for="vram-zero-stage-select">ZeRO Stage</label>
+      <select id="vram-zero-stage-select" data-vram-input>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+  </div>
+  <div class="split-fields three">
+    <label class="toggle-field">
+      <input id="vram-flash-attn-input" type="checkbox" checked data-vram-input />
+      <span>Flash Attention</span>
+    </label>
+    <label class="toggle-field">
+      <input id="vram-grad-checkpoint-input" type="checkbox" data-vram-input />
+      <span>Gradient Checkpointing</span>
+    </label>
+    <div>
+      <label class="field-label" for="vram-grad-checkpoint-ratio-input">Checkpoint 比例 (%)</label>
+      <div class="vram-slider-field">
+        <input id="vram-grad-checkpoint-ratio-range" type="range" min="0" max="95" step="1" value="50" data-vram-slider="vram-grad-checkpoint-ratio-input" />
+        <input id="vram-grad-checkpoint-ratio-input" inputmode="decimal" value="50" data-vram-input data-vram-number="vram-grad-checkpoint-ratio-range" />
+      </div>
+    </div>
+  </div>
+  <div class="split-fields three">
+    <label class="toggle-field">
+      <input id="vram-opt8-input" type="checkbox" data-vram-input />
+      <span>8-bit Optimizer</span>
+    </label>
+    <label class="toggle-field">
+      <input id="vram-paged-opt-input" type="checkbox" data-vram-input />
+      <span>Paged Optimizer</span>
+    </label>
+    <label class="toggle-field">
+      <input id="vram-fused-kernels-input" type="checkbox" data-vram-input />
+      <span>Fused Kernels</span>
+    </label>
+  </div>
+  <div class="split-fields three">
+    <label class="toggle-field">
+      <input id="vram-activation-offload-input" type="checkbox" data-vram-input />
+      <span>Activation Offloading</span>
+    </label>
+    <label class="toggle-field">
+      <input id="vram-seq-pack-input" type="checkbox" data-vram-input />
+      <span>Sequence Packing</span>
+    </label>
+    <label class="toggle-field">
+      <input id="vram-dyn-pad-input" type="checkbox" data-vram-input />
+      <span>Dynamic Padding</span>
+    </label>
+  </div>
+</div>
+
+<div class="tool-panel compact-panel">
+  <div class="section-heading">
+    <h2>能耗与成本</h2>
+  </div>
+  <div class="split-fields three">
+    <div>
+      <label class="field-label" for="vram-electricity-input">电价 ($/kWh)</label>
+      <div class="vram-slider-field">
+        <input id="vram-electricity-range" type="range" min="0" max="1" step="0.01" value="0.12" data-vram-slider="vram-electricity-input" />
+        <input id="vram-electricity-input" inputmode="decimal" value="0.12" data-vram-input data-vram-number="vram-electricity-range" />
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="vram-carbon-select">碳强度</label>
+      <select id="vram-carbon-select" data-vram-input>
+        <optgroup label="Regions">
+          <option value="475">Global Average (475 g/kWh)</option>
+          <option value="380">US (380 g/kWh)</option>
+          <option value="250">EU (250 g/kWh)</option>
+          <option value="560">China (560 g/kWh)</option>
+          <option value="55">France (55 g/kWh)</option>
+          <option value="680">India (680 g/kWh)</option>
+          <option value="460">Japan (460 g/kWh)</option>
+          <option value="130">Brazil (130 g/kWh)</option>
+        </optgroup>
+        <optgroup label="Energy Sources">
+          <option value="12">Nuclear (12 g/kWh)</option>
+          <option value="11">Wind (11 g/kWh)</option>
+          <option value="48">Solar (48 g/kWh)</option>
+          <option value="24">Hydro (24 g/kWh)</option>
+          <option value="490">Natural Gas (490 g/kWh)</option>
+          <option value="950">Coal (950 g/kWh)</option>
+        </optgroup>
+      </select>
+    </div>
+    <label class="toggle-field" data-vram-inference-field>
+      <input id="vram-ttft-sim-input" type="checkbox" checked data-vram-input />
+      <span>TTFT simulation</span>
+    </label>
+  </div>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>结果</h2>
+  </div>
+  <div class="vram-result-layout">
+    <div>
+      <div class="vram-summary-grid">
+        <div class="metric-tile" data-vram-fit-state="ready">
+          <span>适配状态</span>
+          <strong data-vram-result="fit">-</strong>
+          <p data-vram-result="fit-note">-</p>
+        </div>
+        <div class="metric-tile">
+          <span>预计总需求</span>
+          <strong data-vram-result="total">-</strong>
+          <p data-vram-result="total-note">-</p>
+        </div>
+        <div class="metric-tile">
+          <span>单设备压力</span>
+          <strong data-vram-result="per-device">-</strong>
+          <p data-vram-result="usage">-</p>
+        </div>
+      </div>
+      <div class="usage-meter vram-meter" aria-hidden="true">
+        <span data-vram-meter></span>
+      </div>
+    </div>
+    <div class="vram-ring-card">
+      <div class="vram-memory-ring" data-vram-ring>
+        <span data-vram-result="ring-percent">-</span>
+      </div>
+      <div>
+        <strong>显存占用</strong>
+        <p data-vram-result="ring-detail">-</p>
+      </div>
+    </div>
+  </div>
+  <div class="range-tabs vram-result-tabs" aria-label="结果视图">
+    <button type="button" data-vram-result-tab="performance" aria-pressed="true">性能与内存</button>
+    <button type="button" data-vram-result-tab="energy" aria-pressed="false">能耗与成本</button>
+  </div>
+</div>
+
+<div class="tool-panel result-panel" data-vram-tab-panel="performance">
+  <div class="section-heading">
+    <h2>性能与内存</h2>
+  </div>
+  <div class="result-grid">
+    <div class="result-row"><span>模型权重</span><strong data-vram-breakdown="weights">-</strong><em>量化后的基础模型</em></div>
+    <div class="result-row"><span>KV cache</span><strong data-vram-breakdown="kv">-</strong><em>序列、batch、并发与注意力结构</em></div>
+    <div class="result-row"><span>激活/临时缓冲</span><strong data-vram-breakdown="activations">-</strong><em>训练或推理过程中的中间张量</em></div>
+    <div class="result-row"><span>优化器/梯度</span><strong data-vram-breakdown="optimizer">-</strong><em>微调状态、LoRA/QLoRA buffer</em></div>
+    <div class="result-row"><span>框架与多卡开销</span><strong data-vram-breakdown="overhead">-</strong><em>runtime、通信与碎片余量</em></div>
+    <div class="result-row"><span>卸载到系统侧</span><strong data-vram-breakdown="offloaded">-</strong><em>CPU/RAM 或 NVMe 承载的估算量</em></div>
+    <div class="result-row"><span>生成速度</span><strong data-vram-result="speed">-</strong><em>tokens / second</em></div>
+    <div class="result-row"><span>TTFT</span><strong data-vram-result="ttft">-</strong><em>首 token 延迟估算</em></div>
+    <div class="result-row"><span>训练 token</span><strong data-vram-result="training-tokens">-</strong><em>样本、tokens/sample 与 epoch</em></div>
+    <div class="result-row"><span>训练时间</span><strong data-vram-result="training-time">-</strong><em>吞吐估算</em></div>
+  </div>
+</div>
+
+<div class="tool-panel result-panel" data-vram-tab-panel="energy" hidden>
+  <div class="section-heading">
+    <h2>能耗与成本</h2>
+  </div>
+  <div class="result-grid">
+    <div class="result-row"><span>功耗</span><strong data-vram-result="power">-</strong><em>按设备功耗和利用率估算</em></div>
+    <div class="result-row"><span>本地成本 / 小时</span><strong data-vram-result="cost-hour">-</strong><em>电价 x 功耗</em></div>
+    <div class="result-row"><span>本地成本 / 月</span><strong data-vram-result="cost-month">-</strong><em>按 24x30 小时估算</em></div>
+    <div class="result-row"><span>云租赁 / 小时</span><strong data-vram-result="cloud-hour">-</strong><em>按所选 GPU 市场价估算</em></div>
+    <div class="result-row"><span>碳排 / 天</span><strong data-vram-result="carbon-day">-</strong><em>kg CO2e</em></div>
+    <div class="result-row"><span>碳排 / 年</span><strong data-vram-result="carbon-year">-</strong><em>kg CO2e</em></div>
+  </div>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>模拟输出</h2>
+  </div>
+  <div class="vram-simulation">
+    <p data-vram-simulation-text>选择配置后可播放一段生成速度模拟。</p>
+    <div class="toolbar-actions">
+      <button type="button" class="tool-action-button" id="vram-play-sim">播放</button>
+      <button type="button" class="tool-action-button" id="vram-replay-sim">重播</button>
+    </div>
+  </div>
+</div>
+
+<div class="tool-panel result-panel">
+  <div class="section-heading">
+    <h2>导出</h2>
+  </div>
+  <textarea id="vram-output" rows="14" readonly></textarea>
+</div>

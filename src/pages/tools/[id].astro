@@ -8,6 +8,7 @@ import ParametricEqTool from "../../components/tools/ParametricEqTool.astro";
 import SigmaStudioDelayTool from "../../components/tools/SigmaStudioDelayTool.astro";
 import SigmaStudioLimiterTool from "../../components/tools/SigmaStudioLimiterTool.astro";
 import TimestampTool from "../../components/tools/TimestampTool.astro";
+import VramCalculatorTool from "../../components/tools/VramCalculatorTool.astro";
 import { tools, type ToolId } from "../../lib/tools";
 
 export function getStaticPaths() {
@@ -23,6 +24,7 @@ const toolComponents = {
   base64: Base64Tool,
   timestamp: TimestampTool,
   "credentials-generator": CredentialsGeneratorTool,
+  "vram-calculator": VramCalculatorTool,
   "sigmastudio-delay": SigmaStudioDelayTool,
   "sigmastudio-limiter": SigmaStudioLimiterTool,
   "multi-source-delay": MultiSourceDelayTool,
@@ -31,7 +33,12 @@ const toolComponents = {
 const ToolComponent = toolComponents[tool.id as ToolId];
 ---
 
-<BaseLayout title={tool.title} description={tool.description}>
+<BaseLayout
+  title={tool.title}
+  description={tool.description}
+  sourceUrl={tool.id === "vram-calculator" ? "https://apxml.com/zh/tools/vram-calculator" : undefined}
+  sourceLabel={tool.id === "vram-calculator" ? "引用来源：ApX VRAM Calculator" : undefined}
+>
   <main class="page-shell tool-page">
     <nav class="breadcrumbs" aria-label="面包屑">
       <a href="/">工具列表</a>
@@ -92,6 +99,13 @@ const ToolComponent = toolComponents[tool.id as ToolId];
     tool.id === "credentials-generator" && (
       <script>
         import "../../scripts/tools/credentialsGenerator";
+      </script>
+    )
+  }
+  {
+    tool.id === "vram-calculator" && (
+      <script>
+        import "../../scripts/tools/vramCalculator";
       </script>
     )
   }

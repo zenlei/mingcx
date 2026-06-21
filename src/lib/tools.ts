@@ -3,6 +3,7 @@ export type ToolId =
   | "base64"
   | "timestamp"
   | "credentials-generator"
+  | "vram-calculator"
   | "sigmastudio-delay"
   | "sigmastudio-limiter"
   | "multi-source-delay"
@@ -49,6 +50,14 @@ export const tools: ToolMeta[] = [
     category: "开发",
     tags: [".env", "Secret", "Credentials", "随机密钥"],
     path: "/tools/credentials-generator",
+  },
+  {
+    id: "vram-calculator",
+    title: "VRAM 计算器",
+    description: "估算 LLM 推理、微调和多卡部署所需显存。",
+    category: "AI",
+    tags: ["VRAM", "LLM", "GPU", "显存"],
+    path: "/tools/vram-calculator",
   },
   {
     id: "sigmastudio-delay",
