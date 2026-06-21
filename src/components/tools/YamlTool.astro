@@ -1,0 +1,28 @@
+---
+const sampleYaml = `name: online-tools
+local: true
+features:
+  - formatter
+  - validator`;
+---
+
+<div class="tool-panel">
+  <label class="field-label" for="yaml-input">输入 YAML</label>
+  <textarea id="yaml-input" spellcheck="false" placeholder="粘贴 YAML 内容">{sampleYaml}</textarea>
+</div>
+
+<div class="action-row" aria-label="YAML 操作">
+  <button type="button" data-yaml-action="format">格式化</button>
+  <button type="button" data-yaml-action="validate">校验</button>
+  <button type="button" data-yaml-action="to-json">转 JSON</button>
+</div>
+
+<div class="status-line" data-status data-state="ok">
+  <span aria-hidden="true">●</span>
+  <span>等待处理</span>
+</div>
+
+<div class="tool-panel">
+  <label class="field-label" for="yaml-output">输出</label>
+  <textarea id="yaml-output" readonly spellcheck="false" placeholder="处理结果会显示在这里"></textarea>
+</div>

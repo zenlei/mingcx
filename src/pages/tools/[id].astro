@@ -9,6 +9,7 @@ import SigmaStudioDelayTool from "../../components/tools/SigmaStudioDelayTool.as
 import SigmaStudioLimiterTool from "../../components/tools/SigmaStudioLimiterTool.astro";
 import TimestampTool from "../../components/tools/TimestampTool.astro";
 import VramCalculatorTool from "../../components/tools/VramCalculatorTool.astro";
+import YamlTool from "../../components/tools/YamlTool.astro";
 import { tools, type ToolId } from "../../lib/tools";
 
 export function getStaticPaths() {
@@ -21,6 +22,7 @@ export function getStaticPaths() {
 const { tool } = Astro.props;
 const toolComponents = {
   "json-formatter": JsonTool,
+  "yaml-formatter": YamlTool,
   base64: Base64Tool,
   timestamp: TimestampTool,
   "credentials-generator": CredentialsGeneratorTool,
@@ -78,6 +80,13 @@ const ToolComponent = toolComponents[tool.id as ToolId];
     tool.id === "json-formatter" && (
       <script>
         import "../../scripts/tools/jsonFormatter";
+      </script>
+    )
+  }
+  {
+    tool.id === "yaml-formatter" && (
+      <script>
+        import "../../scripts/tools/yamlFormatter";
       </script>
     )
   }

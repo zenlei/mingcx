@@ -1,5 +1,6 @@
 export type ToolId =
   | "json-formatter"
+  | "yaml-formatter"
   | "base64"
   | "timestamp"
   | "credentials-generator"
@@ -26,6 +27,14 @@ export const tools: ToolMeta[] = [
     category: "开发",
     tags: ["JSON", "格式化", "校验", "压缩"],
     path: "/tools/json-formatter",
+  },
+  {
+    id: "yaml-formatter",
+    title: "YAML 格式化",
+    description: "格式化、校验 YAML 内容，并可转换为 JSON。",
+    category: "开发",
+    tags: ["YAML", "格式化", "校验", "JSON"],
+    path: "/tools/yaml-formatter",
   },
   {
     id: "base64",
